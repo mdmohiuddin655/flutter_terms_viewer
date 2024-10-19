@@ -1,7 +1,5 @@
 library flutter_terms_viewer;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/terms_reader.dart';
+export 'src/unordered_list_styles.dart';
+export 'src/viewer.dart';

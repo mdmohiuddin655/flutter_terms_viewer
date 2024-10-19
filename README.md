@@ -1,39 +1,70 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# flutter_symbols
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+The flutter_symbols package provides a collection of SymbolIcons, which function similarly to
+IconData in Flutter. It also includes a wide range of symbols such as ∕, allowing developers to
+easily integrate these symbols into their Flutter apps, improving the visual representation of
+content.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+## Use case
 
 ```dart
-const like = 'sample';
+
+IconData icon = SymbolIcons.rightAngleWithZigzagArrow;
+Symbol symbol = Symbols.rightAngleWithZigzagArrow;
 ```
 
-## Additional information
+## Example
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+import 'package:flutter/material.dart';
+import 'package:flutter_symbols/flutter_symbols.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Symbols',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(50),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  SymbolIcons.rightAngleWithZigzagArrow,
+                  size: 50,
+                  fill: 0.3,
+                  color: Colors.red,
+                ),
+                const SizedBox(height: 32),
+                Text(
+                  "\"${Symbols.rightAngleWithZigzagArrow.symbol}\" this is a \"${Symbols
+                      .rightAngleWithZigzagArrow.id}\" symbol",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 32,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+#### ![Screenshot_20241019_101259.png](Screenshot_20241019_101259.png)
