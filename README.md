@@ -378,19 +378,17 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
-
-* https://raw.githubusercontent.com/Mohiuddin655-PUB/flutter_terms_viewer/master/example/Screenshot_20241020_230720.png
-* https://raw.githubusercontent.com/Mohiuddin655-PUB/flutter_terms_viewer/master/example/Screenshot_20241020_231021.png
-* https://raw.githubusercontent.com/Mohiuddin655-PUB/flutter_terms_viewer/master/example/Screenshot_20241020_234705.png
-* https://raw.githubusercontent.com/Mohiuddin655-PUB/flutter_terms_viewer/master/example/Screenshot_20241020_234437.png
-* https://raw.githubusercontent.com/Mohiuddin655-PUB/flutter_terms_viewer/master/example/Screenshot_20241020_234417.png
-* https://raw.githubusercontent.com/Mohiuddin655-PUB/flutter_terms_viewer/master/example/Screenshot_20241020_231045.png
-* https://raw.githubusercontent.com/Mohiuddin655-PUB/flutter_terms_viewer/master/example/Screenshot_20241020_232634.png
-* https://raw.githubusercontent.com/Mohiuddin655-PUB/flutter_terms_viewer/master/example/Screenshot_20241020_232701.png
-* https://raw.githubusercontent.com/Mohiuddin655-PUB/flutter_terms_viewer/master/example/Screenshot_20241020_004744.png
-* https://raw.githubusercontent.com/Mohiuddin655-PUB/flutter_terms_viewer/master/example/Screenshot_20241020_004805.png
-* https://raw.githubusercontent.com/Mohiuddin655-PUB/flutter_terms_viewer/master/example/Screenshot_20241020_004822.png
-* https://raw.githubusercontent.com/Mohiuddin655-PUB/flutter_terms_viewer/master/example/Screenshot_20241020_004849.png
-
+https://github.com/Mohiuddin655-PUB/flutter_terms_viewer/blob/91082c6b52617e3049246d42f9dd9352866861e3/example/Screenshot_20241020_004744.png
+https://github.com/Mohiuddin655-PUB/flutter_terms_viewer/blob/91082c6b52617e3049246d42f9dd9352866861e3/example/Screenshot_20241020_004805.png
+https://github.com/Mohiuddin655-PUB/flutter_terms_viewer/blob/91082c6b52617e3049246d42f9dd9352866861e3/example/Screenshot_20241020_004822.png
+https://github.com/Mohiuddin655-PUB/flutter_terms_viewer/blob/91082c6b52617e3049246d42f9dd9352866861e3/example/Screenshot_20241020_004849.png
+https://github.com/Mohiuddin655-PUB/flutter_terms_viewer/blob/91082c6b52617e3049246d42f9dd9352866861e3/example/Screenshot_20241020_230720.png
+https://github.com/Mohiuddin655-PUB/flutter_terms_viewer/blob/91082c6b52617e3049246d42f9dd9352866861e3/example/Screenshot_20241020_231021.png
+https://github.com/Mohiuddin655-PUB/flutter_terms_viewer/blob/91082c6b52617e3049246d42f9dd9352866861e3/example/Screenshot_20241020_231045.png
+https://github.com/Mohiuddin655-PUB/flutter_terms_viewer/blob/91082c6b52617e3049246d42f9dd9352866861e3/example/Screenshot_20241020_232634.png
+https://github.com/Mohiuddin655-PUB/flutter_terms_viewer/blob/91082c6b52617e3049246d42f9dd9352866861e3/example/Screenshot_20241020_232701.png
+https://github.com/Mohiuddin655-PUB/flutter_terms_viewer/blob/91082c6b52617e3049246d42f9dd9352866861e3/example/Screenshot_20241020_234417.png
+https://github.com/Mohiuddin655-PUB/flutter_terms_viewer/blob/91082c6b52617e3049246d42f9dd9352866861e3/example/Screenshot_20241020_234437.png
+https://github.com/Mohiuddin655-PUB/flutter_terms_viewer/blob/91082c6b52617e3049246d42f9dd9352866861e3/example/Screenshot_20241020_234705.png
 
 
