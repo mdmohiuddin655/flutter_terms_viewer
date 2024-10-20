@@ -45,8 +45,7 @@ const _kMappedTerms = {
           "Welcome to ExampleApp (\"<b>App</b>\", \"<b>we</b>\", \"<b>our</b>\", or \"<b>us</b>\"). These Terms and Conditions (\"<b>Terms</b>\") govern your access to and use of the services provided by <u><b>RandomoApp</b></u> (the \"Service\"). By accessing or using the App, you agree to comply with and be bound by these Terms. If you do not agree with these Terms, you may not use the Service.",
     },
     {
-      "title": "Acceptance of Terms",
-      "headline": "h2",
+      "title": "<b>Acceptance of Terms</b>>",
       "order_style": "number",
       "children": [
         {
@@ -56,8 +55,7 @@ const _kMappedTerms = {
       ],
     },
     {
-      "title": "Eligibility",
-      "headline": "h2",
+      "title": "<b>Eligibility</b>",
       "order_style": "number",
       "children": [
         {
@@ -67,7 +65,7 @@ const _kMappedTerms = {
       ],
     },
     {
-      "title": "User Account and Information",
+      "title": "User Account and <b>Information</b>",
       "order_style": "number",
       "children": [
         {
@@ -80,6 +78,44 @@ const _kMappedTerms = {
               "order_style": "○",
               "text":
                   "To access certain features of the Service, you may need to register an account. You are responsible for maintaining the confidentiality of your account information, including your password.",
+              "children": [
+                {
+                  "title": "Registration: ",
+                  "order_style": "lower_alphabet",
+                  "text":
+                      "To access certain features of the Service, you may need to register an account. You are responsible for maintaining the confidentiality of your account information, including your password.",
+                  "children": [
+                    {
+                      "order_style": "○",
+                      "text":
+                          "To access certain features of the Service, you may need to register an account. You are responsible for maintaining the confidentiality of your account information, including your password.",
+                    },
+                    {
+                      "order_style": "○",
+                      "text":
+                          "To access certain features of the Service, you may need to register an account. You are responsible for maintaining the confidentiality of your account information, including your password.",
+                    },
+                  ]
+                },
+                {
+                  "title": "Registration: ",
+                  "order_style": "lower_alphabet",
+                  "text":
+                      "To access certain features of the Service, you may need to register an account. You are responsible for maintaining the confidentiality of your account information, including your password.",
+                  "children": [
+                    {
+                      "order_style": "○",
+                      "text":
+                          "To access certain features of the Service, you may need to register an account. You are responsible for maintaining the confidentiality of your account information, including your password.",
+                    },
+                    {
+                      "order_style": "○",
+                      "text":
+                          "To access certain features of the Service, you may need to register an account. You are responsible for maintaining the confidentiality of your account information, including your password.",
+                    },
+                  ]
+                },
+              ],
             },
           ]
         },
@@ -92,7 +128,7 @@ const _kMappedTerms = {
       ]
     },
     {
-      "title": "Collection of Data",
+      "title": "<b>Collection of Data</b>",
       "order_style": "number",
       "children": [
         {
@@ -102,7 +138,7 @@ const _kMappedTerms = {
       ],
     },
     {
-      "title": "Public Information Access",
+      "title": "<b>Public Information Access</b>",
       "order_style": "number",
       "children": [
         {
@@ -120,7 +156,7 @@ const _kMappedTerms = {
       ],
     },
     {
-      "title": "Prohibited Activities",
+      "title": "<b>Prohibited Activities</b>",
       "order_style": "number",
       "children": [
         {
@@ -156,7 +192,7 @@ const _kMappedTerms = {
       ],
     },
     {
-      "title": "Termination",
+      "title": "<b>Termination</b>",
       "order_style": "number",
       "children": [
         {
@@ -166,7 +202,7 @@ const _kMappedTerms = {
       ],
     },
     {
-      "title": "Intellectual Property",
+      "title": "<b>Intellectual Property</b>",
       "order_style": "number",
       "children": [
         {
@@ -176,7 +212,7 @@ const _kMappedTerms = {
       ],
     },
     {
-      "title": "Liability Disclaimer",
+      "title": "<b>Liability Disclaimer</b>",
       "order_style": "number",
       "children": [
         {
@@ -204,7 +240,7 @@ const _kMappedTerms = {
       ],
     },
     {
-      "title": "Third-Party Links",
+      "title": "<b>Third-Party Links</b>",
       "order_style": "number",
       "children": [
         {
@@ -214,7 +250,7 @@ const _kMappedTerms = {
       ],
     },
     {
-      "title": "Modifications to Terms",
+      "title": "<b>Modifications to Terms</b>",
       "order_style": "number",
       "children": [
         {
@@ -224,7 +260,7 @@ const _kMappedTerms = {
       ],
     },
     {
-      "title": "Governing Law",
+      "title": "<b>Governing Law</b>",
       "order_style": "number",
       "children": [
         {
@@ -234,7 +270,7 @@ const _kMappedTerms = {
       ],
     },
     {
-      "title": "Contact Information",
+      "title": "<h1><b>Contact Information</b></h1>",
       "order_style": "number",
       "children": [
         {

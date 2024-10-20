@@ -2,114 +2,84 @@ import 'package:flutter/material.dart';
 
 import 'parser.dart';
 
-const _kOrderStyles = [
-  TermsOrderStyle.number,
-  TermsOrderStyle.lowerAlphabet,
-  TermsOrderStyle.upperAlphabet,
-  TermsOrderStyle.lowerRoman,
-  TermsOrderStyle.upperRoman,
-  TermsOrderStyle.lowerGreek,
-  TermsOrderStyle.upperGreek,
-];
-const _kHeadlines = [
-  TermsHeadline.h1,
-  TermsHeadline.h2,
-  TermsHeadline.h3,
-  TermsHeadline.h4,
-  TermsHeadline.h5,
-  TermsHeadline.h6,
-];
-
-final class TermsOrderStyle {
-  final String style;
-
-  bool get isSequence => _kOrderStyles.contains(this);
-
-  bool get isNormal => style == "normal";
-
-  static const number = TermsOrderStyle("number");
-
-  static const lowerAlphabet = TermsOrderStyle("lower_alphabet");
-
-  static const upperAlphabet = TermsOrderStyle("upper_alphabet");
-
-  static const lowerRoman = TermsOrderStyle("lower_roman");
-
-  static const upperRoman = TermsOrderStyle("upper_roman");
-
-  static const lowerGreek = TermsOrderStyle("lower_greek");
-
-  static const upperGreek = TermsOrderStyle("upper_greek");
-
-  static const normal = TermsOrderStyle("normal");
-
-  const TermsOrderStyle(this.style);
-
-  factory TermsOrderStyle.from(Object? source) {
-    if (source == null) return const TermsOrderStyle("normal");
-    return _kOrderStyles.firstWhere((e) {
-      return e.style == source;
-    }, orElse: () => TermsOrderStyle("$source"));
-  }
-}
-
-final class TermsHeadline {
-  final String id;
-  final TextStyle value;
-
-  bool get isCustom => id == "custom";
-
-  static const h1 = TermsHeadline("h1");
-
-  static const h2 = TermsHeadline("h2");
-
-  static const h3 = TermsHeadline("h3");
-
-  static const h4 = TermsHeadline("h4");
-
-  static const h5 = TermsHeadline("h5");
-
-  static const h6 = TermsHeadline("h6");
-
-  const TermsHeadline(
-    this.id, [
-    this.value = const TextStyle(),
-  ]);
-
-  factory TermsHeadline.from(Object? source) {
-    if (source == null) return h4;
-    return _kHeadlines.firstWhere((e) {
-      return e.id == source;
-    }, orElse: () => const TermsHeadline("custom"));
-  }
-}
-
-enum TermsSpanType {
-  bold("b"),
-  italic("i"),
-  underline("u"),
-  normal("");
-
-  final String id;
-
-  const TermsSpanType(this.id);
-
-  factory TermsSpanType.from(Object? source) {
-    return values.firstWhere((e) => e.id == source, orElse: () {
-      return TermsSpanType.normal;
-    });
-  }
-}
+const _kMappedColors = {
+  "black": Colors.black,
+  "white": Colors.white,
+  "grey": Colors.grey,
+  "red": Colors.red,
+  "pink": Colors.pink,
+  "purple": Colors.purple,
+  "deepPurple": Colors.deepPurple,
+  "indigo": Colors.indigo,
+  "blue": Colors.blue,
+  "lightBlue": Colors.lightBlue,
+  "cyan": Colors.cyan,
+  "teal": Colors.teal,
+  "green": Colors.green,
+  "lightGreen": Colors.lightGreen,
+  "lime": Colors.lime,
+  "yellow": Colors.yellow,
+  "amber": Colors.amber,
+  "orange": Colors.orange,
+  "deepOrange": Colors.deepOrange,
+  "brown": Colors.brown,
+  "blueGrey": Colors.blueGrey,
+};
 
 class TermsSpan {
   final String text;
-  final List<TermsSpanType> types;
+  final List<String> types;
 
-  bool get isBold => types.contains(TermsSpanType.bold);
+  bool get isBold => types.contains("b");
 
-  bool get isItalic => types.contains(TermsSpanType.italic);
+  bool get isItalic => types.contains("i");
 
-  bool get isUnderline => types.contains(TermsSpanType.underline);
+  bool get isUnderline => types.contains("u");
+
+  Color? get color {
+    String? source = types.firstWhere((e) {
+      return e.contains("color");
+    }, orElse: () => '');
+    if (source.isEmpty) return null;
+    final options = source.split("_");
+    final name = options.elementAtOrNull(1) ?? '';
+    final opacity = options.elementAtOrNull(2) ?? '';
+    final root = _kMappedColors.entries
+        .where((e) => e.key == name.trim().toLowerCase())
+        .firstOrNull
+        ?.value;
+    if (root == null) return null;
+    if (opacity.isNotEmpty) {
+      final value = int.tryParse(opacity);
+      return value != null ? root.withOpacity(value / 100) : root;
+    }
+    return root;
+  }
+
+  double? get fontSize {
+    if (types.contains("h1")) return 20;
+    if (types.contains("h2")) return 18;
+    if (types.contains("h3")) return 16;
+    if (types.contains("h4")) return 14;
+    if (types.contains("h5")) return 13;
+    if (types.contains("h6")) return 12;
+    return null;
+  }
+
+  FontWeight? get fontWeight {
+    if (types.contains("b")) return FontWeight.bold;
+    return null;
+  }
+
+  FontStyle? get fontStyle {
+    if (types.contains("i")) return FontStyle.italic;
+    return null;
+  }
+
+  TextDecoration? get textDecoration {
+    if (types.contains("u")) return TextDecoration.underline;
+    return null;
+  }
 
   const TermsSpan({
     this.text = '',
@@ -118,7 +88,7 @@ class TermsSpan {
 
   TermsSpan copyWith({
     String? text,
-    List<TermsSpanType>? types,
+    List<String>? types,
   }) {
     return TermsSpan(
       text: text ?? this.text,
@@ -132,30 +102,82 @@ class TermsSpan {
     final types = source["types"];
     return TermsSpan(
       text: text is String ? text : '',
-      types: types is Iterable ? types.map(TermsSpanType.from).toList() : [],
+      types: types is Iterable ? types.map((e) => e.toString()).toList() : [],
     );
   }
 
   Map<String, dynamic> get json {
     return {
       if (text.isNotEmpty) "text": text,
-      if (types.isNotEmpty) "types": types.map((e) => e.id).toList(),
+      if (types.isNotEmpty) "types": types,
     };
   }
 }
 
 class TermsData {
   final int position;
-  final TermsHeadline headline;
-  final TermsOrderStyle orderStyle;
+  final String orderStyle;
   final List<TermsSpan> title;
   final List<TermsSpan> text;
   final List<TermsData> children;
 
+  bool get isSequenceOrder {
+    return isNumberOrder ||
+        isLowerAlphabetOrder ||
+        isUpperAlphabetOrder ||
+        isLowerRomanOrder ||
+        isUpperRomanOrder ||
+        isLowerGreekOrder ||
+        isUpperGreekOrder;
+  }
+
+  bool get isNumberOrder => orderStyle == "number";
+
+  bool get isLowerAlphabetOrder => orderStyle == "lower_alphabet";
+
+  bool get isUpperAlphabetOrder => orderStyle == "upper_alphabet";
+
+  bool get isLowerRomanOrder => orderStyle == "lower_roman";
+
+  bool get isUpperRomanOrder => orderStyle == "upper_roman";
+
+  bool get isLowerGreekOrder => orderStyle == "lower_greek";
+
+  bool get isUpperGreekOrder => orderStyle == "upper_greek";
+
+  Color? get orderColor {
+    if (orderStyle.isEmpty) return null;
+    final x = (title.isNotEmpty ? title : text).firstOrNull;
+    return x?.color;
+  }
+
+  double? get orderFontSize {
+    if (orderStyle.isEmpty) return null;
+    final x = (title.isNotEmpty ? title : text).firstOrNull;
+    return x?.fontSize;
+  }
+
+  FontStyle? get orderFontStyle {
+    if (orderStyle.isEmpty) return null;
+    final x = (title.isNotEmpty ? title : text).firstOrNull;
+    return x?.fontStyle;
+  }
+
+  FontWeight? get orderFontWeight {
+    if (orderStyle.isEmpty) return null;
+    final x = (title.isNotEmpty ? title : text).firstOrNull;
+    return x?.fontWeight;
+  }
+
+  TextDecoration? get orderTextDecoration {
+    if (orderStyle.isEmpty) return null;
+    final x = (title.isNotEmpty ? title : text).firstOrNull;
+    return x?.textDecoration;
+  }
+
   const TermsData({
     this.position = 0,
-    this.headline = TermsHeadline.h4,
-    this.orderStyle = TermsOrderStyle.normal,
+    this.orderStyle = '',
     this.title = const [],
     this.text = const [],
     this.children = const [],
@@ -163,8 +185,7 @@ class TermsData {
 
   TermsData copyWith({
     int? position,
-    TermsHeadline? headline,
-    TermsOrderStyle? orderStyle,
+    String? orderStyle,
     List<TermsSpan>? title,
     List<TermsSpan>? text,
     List<TermsData>? children,
@@ -172,7 +193,6 @@ class TermsData {
     return TermsData(
       position: position ?? this.position,
       title: title ?? this.title,
-      headline: headline ?? this.headline,
       orderStyle: orderStyle ?? this.orderStyle,
       children: children ?? this.children,
       text: text ?? this.text,
@@ -183,7 +203,6 @@ class TermsData {
     if (source is! Map) return const TermsData();
     final title = source["title"];
     final text = source["text"];
-    final headline = source["headline"];
     final orderStyle = source["order_style"];
     final children = source["children"];
 
@@ -191,23 +210,16 @@ class TermsData {
     final mText = TermsParagraph.parse(text is String ? text : '');
 
     return TermsData(
-      headline: TermsHeadline.from(headline),
-      orderStyle: TermsOrderStyle.from(orderStyle),
+      orderStyle: orderStyle is String ? orderStyle : '',
       title: mTitle.children.map((e) {
         if (e is TermsSpannedText) {
-          return TermsSpan(
-            text: e.text,
-            types: e.types.map(TermsSpanType.from).toList(),
-          );
+          return TermsSpan(text: e.text, types: e.types);
         }
         return TermsSpan(text: e.text);
       }).toList(),
       text: mText.children.map((e) {
         if (e is TermsSpannedText) {
-          return TermsSpan(
-            text: e.text,
-            types: e.types.map(TermsSpanType.from).toList(),
-          );
+          return TermsSpan(text: e.text, types: e.types);
         }
         return TermsSpan(text: e.text);
       }).toList(),
@@ -218,8 +230,7 @@ class TermsData {
 
   Map<String, dynamic> get json {
     return {
-      if (!headline.isCustom) "headline": headline.id,
-      if (!orderStyle.isNormal) "order_style": orderStyle.style,
+      if (orderStyle.isNotEmpty) "order_style": orderStyle,
       if (title.isNotEmpty) "title": title.map((e) => e.json).toList(),
       if (text.isNotEmpty) "text": text.map((e) => e.json).toList(),
       if (children.isNotEmpty) "children": children.map((e) => e.json).toList(),

@@ -10,28 +10,48 @@ typedef TermsBuilder<T> = Widget Function(
   int index,
 );
 
+typedef TermsOrderTextBuilder = String Function(
+  String style,
+  int index,
+);
+
 class TermsViewer extends StatelessWidget {
   final Terms data;
   final TermsBuilder<TermsData>? titleBuilder;
   final TermsBuilder<TermsData>? subtitleBuilder;
+  final TermsBuilder<String>? orderBuilder;
+  final TermsOrderTextBuilder? orderTextBuilder;
+  final double orderSpacingWidthFactor;
+  final double? orderInnerSpace;
 
   const TermsViewer({
     super.key,
     required this.data,
     this.titleBuilder,
     this.subtitleBuilder,
+    this.orderBuilder,
+    this.orderTextBuilder,
+    this.orderInnerSpace,
+    this.orderSpacingWidthFactor = 1,
   });
 
   @override
   Widget build(BuildContext context) {
     int index = 0;
-    final contents = data.contents;
-    if (contents.isEmpty) return const SizedBox();
+    final children = data.contents;
+    if (children.isEmpty) return const SizedBox();
     return Column(
-      children: List.generate(contents.length, (i) {
-        final data = contents[i];
-        if (data.orderStyle.isSequence) index++;
-        return TermsBody(index: index, data: data);
+      children: List.generate(children.length, (i) {
+        final data = children[i];
+        if (data.isSequenceOrder) index++;
+        return TermsBody(
+          index: index,
+          data: data,
+          orderBuilder: orderBuilder,
+          orderInnerSpace: orderInnerSpace,
+          orderSpacingWidthFactor: orderSpacingWidthFactor,
+          orderTextBuilder: orderTextBuilder,
+        );
       }),
     );
   }
@@ -39,12 +59,9 @@ class TermsViewer extends StatelessWidget {
 
 class TermsBody extends StatelessWidget {
   final int index;
-  final TextStyle style;
-  final TextStyle? titleStyle;
   final TermsData data;
-  final TextStyle? orderStyle;
   final TermsBuilder<String>? orderBuilder;
-  final String Function(int index, TermsOrderStyle style)? orderTextBuilder;
+  final TermsOrderTextBuilder? orderTextBuilder;
   final double orderSpacingWidthFactor;
   final double? orderInnerSpace;
 
@@ -52,19 +69,16 @@ class TermsBody extends StatelessWidget {
     super.key,
     this.index = -1,
     required this.data,
-    this.style = const TextStyle(),
-    this.titleStyle,
-    this.orderStyle,
     this.orderBuilder,
     this.orderTextBuilder,
     this.orderSpacingWidthFactor = 1,
     this.orderInnerSpace,
   });
 
-  String _orderText(TermsOrderStyle style, int index) {
-    if (style.isNormal) return '';
-    if (!style.isSequence) return style.style;
-    return (orderTextBuilder ?? (_, __) => "($index)")(index, style);
+  String get _orderText {
+    if (data.orderStyle.isEmpty) return '';
+    if (!data.isSequenceOrder) return data.orderStyle;
+    return (orderTextBuilder ?? (_, __) => "($index)")(data.orderStyle, index);
   }
 
   @override
@@ -74,40 +88,45 @@ class TermsBody extends StatelessWidget {
     final title = data.title;
     final text = data.text;
     final children = data.children;
-    final orderText = _orderText(data.orderStyle, index);
 
-    final mStyle = style.copyWith(fontSize: style.fontSize ?? 16);
+    final orderText = _orderText;
 
-    final mTitleStyle =
-        titleStyle ?? mStyle.copyWith(fontWeight: FontWeight.bold);
+    const mStyle = TextStyle(fontSize: 16);
 
-    final mOrderStyle = orderStyle ?? mTitleStyle;
+    final mOrderStyle = mStyle.copyWith(
+      color: data.orderColor,
+      fontSize: data.orderFontSize,
+      fontStyle: data.orderFontStyle,
+      fontWeight: data.orderFontWeight,
+      decoration: data.orderTextDecoration,
+    );
 
-    final mOrderSpace = orderInnerSpace ?? mOrderStyle.fontSize! * 0.6;
+    final mOrderSize = mOrderStyle.fontSize!;
+
+    final mOrderSpace = orderInnerSpace ?? mOrderSize * 0.6;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Row(
+        if (title.isNotEmpty || text.isNotEmpty) ...[
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (position > 1)
                 SizedBox(
-                    width: min(position - 1, 5) *
-                        (mOrderStyle.fontSize! * 1.18) *
-                        orderSpacingWidthFactor),
+                  width: min(position - 1, 5) *
+                      (mOrderSize * 1.18) *
+                      orderSpacingWidthFactor,
+                ),
               if (orderText.isNotEmpty)
                 if (orderBuilder != null)
                   orderBuilder!(context, orderText, index)
                 else ...[
-                  Text(orderText, style: mOrderStyle),
-                  SizedBox(
-                    width: orderText.endsWith(".") || orderText.endsWith(")")
-                        ? mOrderSpace * 0.5
-                        : mOrderSpace,
-                  )
+                  Text(
+                    orderText,
+                    style: mOrderStyle,
+                  ),
+                  SizedBox(width: mOrderSpace)
                 ],
               Expanded(
                 child: Text.rich(
@@ -120,13 +139,11 @@ class TermsBody extends StatelessWidget {
                             return TextSpan(
                               text: e.text,
                               style: mStyle.copyWith(
-                                fontStyle: e.isItalic ? FontStyle.italic : null,
-                                fontWeight: e.isBold
-                                    ? FontWeight.bold
-                                    : FontWeight.bold,
-                                decoration: e.isUnderline
-                                    ? TextDecoration.underline
-                                    : null,
+                                color: e.color,
+                                fontSize: e.fontSize,
+                                fontStyle: e.fontStyle,
+                                fontWeight: e.fontWeight,
+                                decoration: e.textDecoration,
                               ),
                             );
                           }),
@@ -138,11 +155,11 @@ class TermsBody extends StatelessWidget {
                             return TextSpan(
                               text: e.text,
                               style: mStyle.copyWith(
-                                fontStyle: e.isItalic ? FontStyle.italic : null,
-                                fontWeight: e.isBold ? FontWeight.bold : null,
-                                decoration: e.isUnderline
-                                    ? TextDecoration.underline
-                                    : null,
+                                color: e.color,
+                                fontSize: e.fontSize,
+                                fontStyle: e.fontStyle,
+                                fontWeight: e.fontWeight,
+                                decoration: e.textDecoration,
                               ),
                             );
                           }),
@@ -154,12 +171,20 @@ class TermsBody extends StatelessWidget {
               ),
             ],
           ),
-        ),
+          const SizedBox(height: 16),
+        ],
         if (children.isNotEmpty)
           ...List.generate(children.length, (i) {
             final data = children[i].copyWith(position: position + 1);
-            if (data.orderStyle.isSequence) innerIndex++;
-            return TermsBody(index: innerIndex, data: data);
+            if (data.isSequenceOrder) innerIndex++;
+            return TermsBody(
+              index: innerIndex,
+              data: data,
+              orderTextBuilder: orderTextBuilder,
+              orderSpacingWidthFactor: orderSpacingWidthFactor,
+              orderInnerSpace: orderInnerSpace,
+              orderBuilder: orderBuilder,
+            );
           }),
       ],
     );

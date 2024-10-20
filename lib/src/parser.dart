@@ -53,8 +53,8 @@ class TermsParagraph {
     List<TermsText> texts = [];
 
     // Regex to extract everything inside <p> and spans within <p>
-    RegExp pTagExp = RegExp(r'<p[^>]*>(.*?)<\/p>', dotAll: true);
-    RegExp spanTagExp = RegExp(r'<(\w+)[^>]*>(.*?)<\/\1>', dotAll: true);
+    RegExp pTagExp = RegExp(r'<p[^>]*>(.*?)</p>', dotAll: true);
+    RegExp spanTagExp = RegExp(r'<(\w+)[^>]*>(.*?)</\1>', dotAll: true);
 
     // Helper function to recursively extract nested spans
     List<TermsText> parseSpans(String text, List<String> tags) {
