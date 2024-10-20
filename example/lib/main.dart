@@ -1,42 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_andomie/core.dart';
 import 'package:flutter_terms_viewer/flutter_terms_viewer.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Terms Viewer',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Terms and conditions",
-          ),
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 16,
-            ),
-            child: TermsViewer(
-              data: Terms.from(_kMappedTerms),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 const _kMappedTerms = {
   "children": [
@@ -65,7 +31,7 @@ const _kMappedTerms = {
       ],
     },
     {
-      "title": "User Account and <b>Information</b>",
+      "title": "User Account and <u><i>Information</i></u>",
       "order_style": "number",
       "children": [
         {
@@ -284,3 +250,121 @@ const _kMappedTerms = {
     }
   ]
 };
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Terms Viewer',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "Terms and conditions",
+          ),
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 16,
+            ),
+            child: TermsViewer(
+              data: Terms.from(_kMappedTerms),
+              orderTextBuilder: (data, index) {
+                final position = data.position;
+                if (position == 1) {
+                  return OrderedListSequence.lowerAlpha
+                      .sequence(index)
+                      .join(".");
+                }
+                if (position == 2) {
+                  return OrderedListSequence.lowerRoman
+                      .sequence(index)
+                      .join(".");
+                }
+                return null;
+              },
+              orderAlignmentBuilder: (position) {
+                if (position == 0) {
+                  return CrossAxisAlignment.center;
+                }
+                return null;
+              },
+              orderBuilder: (context, data, index) {
+                if (data.position == 0) {
+                  final color = Colors.primaries.elementAt(index);
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    margin: const EdgeInsets.only(right: 12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: color,
+                      // color: Theme.of(context).primaryColor,
+                    ),
+                    child: Text(
+                      "${index + 1}",
+                      style: TextStyle(
+                        color: color.isDark ? Colors.white : Colors.black,
+                        height: 1,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                }
+                return null;
+              },
+              orderStyleBuilder: (data, style, index) {
+                final position = data.position;
+                final isTitle = data.title.isNotEmpty;
+                if (position == 1) {
+                  return style.copyWith(
+                    color: Colors.red,
+                  );
+                }
+                if (position == 2) {
+                  return style.copyWith(
+                    color: isTitle ? Colors.blue : Colors.black,
+                    fontWeight: isTitle ? null : FontWeight.normal,
+                  );
+                }
+                return null;
+              },
+              titleStyleBuilder: (data, style, index) {
+                final position = data.position;
+                if (position == 0) {
+                  return style.copyWith(
+                    color: Colors.primaries.elementAtOrNull(max(index, 0)),
+                  );
+                }
+                if (position == 1) {
+                  return style.copyWith(
+                    color: Colors.red,
+                  );
+                }
+                if (position == 2) {
+                  return style.copyWith(
+                    color: Colors.blue,
+                  );
+                }
+                return null;
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

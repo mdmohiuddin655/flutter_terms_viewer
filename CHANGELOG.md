@@ -1,4 +1,3 @@
 ## 1.0.0
 
-* Add symbol icons [SymbolIcons.rightAngleWithZigzagArrow]
-* Add symbol instances [Symbols.rightAngleWithZigzagArrow]
+* Add TermsViewer to read any legal information easily.

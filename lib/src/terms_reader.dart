@@ -2,30 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'parser.dart';
 
-const _kMappedColors = {
-  "black": Colors.black,
-  "white": Colors.white,
-  "grey": Colors.grey,
-  "red": Colors.red,
-  "pink": Colors.pink,
-  "purple": Colors.purple,
-  "deepPurple": Colors.deepPurple,
-  "indigo": Colors.indigo,
-  "blue": Colors.blue,
-  "lightBlue": Colors.lightBlue,
-  "cyan": Colors.cyan,
-  "teal": Colors.teal,
-  "green": Colors.green,
-  "lightGreen": Colors.lightGreen,
-  "lime": Colors.lime,
-  "yellow": Colors.yellow,
-  "amber": Colors.amber,
-  "orange": Colors.orange,
-  "deepOrange": Colors.deepOrange,
-  "brown": Colors.brown,
-  "blueGrey": Colors.blueGrey,
-};
-
 class TermsSpan {
   final String text;
   final List<String> types;
@@ -35,26 +11,6 @@ class TermsSpan {
   bool get isItalic => types.contains("i");
 
   bool get isUnderline => types.contains("u");
-
-  Color? get color {
-    String? source = types.firstWhere((e) {
-      return e.contains("color");
-    }, orElse: () => '');
-    if (source.isEmpty) return null;
-    final options = source.split("_");
-    final name = options.elementAtOrNull(1) ?? '';
-    final opacity = options.elementAtOrNull(2) ?? '';
-    final root = _kMappedColors.entries
-        .where((e) => e.key == name.trim().toLowerCase())
-        .firstOrNull
-        ?.value;
-    if (root == null) return null;
-    if (opacity.isNotEmpty) {
-      final value = int.tryParse(opacity);
-      return value != null ? root.withOpacity(value / 100) : root;
-    }
-    return root;
-  }
 
   double? get fontSize {
     if (types.contains("h1")) return 20;
@@ -144,12 +100,6 @@ class TermsData {
   bool get isLowerGreekOrder => orderStyle == "lower_greek";
 
   bool get isUpperGreekOrder => orderStyle == "upper_greek";
-
-  Color? get orderColor {
-    if (orderStyle.isEmpty) return null;
-    final x = (title.isNotEmpty ? title : text).firstOrNull;
-    return x?.color;
-  }
 
   double? get orderFontSize {
     if (orderStyle.isEmpty) return null;
