@@ -1,6 +1,6 @@
 name: flutter_terms_viewer
 description: "The flutter_terms_viewer package offers a convenient widget for displaying Terms and Conditions, Privacy Policy, and other legal texts within Flutter apps. It provides a scrollable, user-friendly interface to view lengthy documents, making it easy to incorporate important legal information into your app's UI."
-version: 1.0.1+2
+version: 1.0.2
 repository: https://github.com/Mohiuddin655-PUB/flutter_terms_viewer
 
 environment:

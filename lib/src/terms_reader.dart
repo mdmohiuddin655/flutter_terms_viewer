@@ -189,24 +189,36 @@ class TermsData {
 }
 
 class Terms {
+  final String? headline;
+  final String? body;
   final List<TermsData> contents;
 
   const Terms({
+    this.headline,
+    this.body,
     this.contents = const [],
   });
 
   Terms copyWith({
+    String? headline,
+    String? body,
     List<TermsData>? contents,
   }) {
     return Terms(
+      headline: headline ?? this.headline,
+      body: body ?? this.body,
       contents: contents ?? this.contents,
     );
   }
 
   factory Terms.from(Object? source) {
     if (source is! Map) return const Terms();
+    final headline = source["headline"];
+    final body = source["body"];
     final contents = source["children"];
     return Terms(
+      headline: headline is String ? headline : null,
+      body: body is String ? body : null,
       contents:
           contents is Iterable ? contents.map(TermsData.from).toList() : [],
     );
@@ -214,6 +226,8 @@ class Terms {
 
   Map<String, dynamic> get json {
     return {
+      if (headline != null) "headline": headline,
+      if (body != null) "body": body,
       if (contents.isNotEmpty) "children": contents.map((e) => e.json).toList(),
     };
   }
